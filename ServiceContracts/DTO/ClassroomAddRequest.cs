@@ -5,7 +5,7 @@ namespace ServiceContracts.DTO
   {
     public string? ClassName { get; set; }
 
-    public Classroom ToCourse()
+    public Classroom ToClassroom()
     {
       return new Classroom()
       {

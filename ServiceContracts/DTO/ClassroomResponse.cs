@@ -9,12 +9,12 @@ namespace ServiceContracts.DTO
 
   public static class CourseExtension
   {
-    public static ClassroomResponse ToCourseResponse(this Classroom course)
+    public static ClassroomResponse ToClassroomResponse(this Classroom classroom)
     {
       return new ClassroomResponse()
       {
-        ClassID = course.CourseID,
-        ClassName = course.ClassName
+        ClassID = classroom.ClassID,
+        ClassName = classroom.ClassName
       };
     }
   }
