@@ -13,6 +13,7 @@ namespace Tests
       _classroomService = new ClassroomsService();
     }
 
+    #region AddClassroom
     // When ClassroomAddRequest is null, it should throw ArgumentException
     [Fact]
     public void AddClassroom_NullClassroom()
@@ -58,9 +59,46 @@ namespace Tests
 
       // Atc
       ClassroomResponse response = _classroomService.AddClassroom(request);
+      List<ClassroomResponse> classroms_from_GetAllClassrooms = _classroomService.GetAllClassrooms();
 
       // Assert
       Assert.True(response.ClassID != Guid.Empty);
+      Assert.Contains(response, classroms_from_GetAllClassrooms);
     }
+    #endregion
+    #region GetAllClassrooms
+    [Fact]
+    public void GetAllClassrooms_Emptylist()
+    {
+      // Acts
+      List<ClassroomResponse> actual_classroom_response_list = _classroomService.GetAllClassrooms();
+
+      // Assert
+      Assert.Empty(actual_classroom_response_list);
+    }
+    [Fact]
+    public void GetAllClassrooms_AddFewClassrooms()
+    {
+      List<ClassroomAddRequest> classrooms_request_list = new List<ClassroomAddRequest>()
+      {
+        new ClassroomAddRequest() {ClassName = "DSA"},
+        new ClassroomAddRequest() {ClassName = "Database"},
+      };
+
+      // Act
+      List<ClassroomResponse> classrooms_list_from_add_classroom = new List<ClassroomResponse>();
+      foreach(ClassroomAddRequest classroom_request in classrooms_request_list)
+      {
+        classrooms_list_from_add_classroom.Add(_classroomService.AddClassroom(classroom_request));
+      }
+
+      List<ClassroomResponse> actualClassroomResponseList = _classroomService.GetAllClassrooms();
+
+      foreach(ClassroomResponse expected_classroom in classrooms_list_from_add_classroom)
+      {
+        Assert.Contains(expected_classroom, actualClassroomResponseList);
+      }
+    }
+    #endregion
   }
 }

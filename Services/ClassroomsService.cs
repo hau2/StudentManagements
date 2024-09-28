@@ -42,5 +42,10 @@ namespace Services
 
       return classroom.ToClassroomResponse();
     }
+
+    public List<ClassroomResponse> GetAllClassrooms()
+    {
+      throw new NotImplementedException();
+    }
   }
 }
