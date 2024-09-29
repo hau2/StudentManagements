@@ -50,7 +50,12 @@ namespace Services
 
     public ClassroomResponse? GetClassroomByClassID(Guid? classID)
     {
-      throw new NotImplementedException();
+      if (classID == null) return null;
+      Classroom? classroom_response_form_list = _classrooms.FirstOrDefault(c => c.ClassID == classID);
+
+      if (classroom_response_form_list == null) return null;
+
+      return classroom_response_form_list.ToClassroomResponse();
     }
   }
 }
