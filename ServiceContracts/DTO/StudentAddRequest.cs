@@ -13,14 +13,16 @@ namespace ServiceContracts.DTO
     public bool IsNewCommer { get; set; }
     public Student ToStudent()
     {
-      return new Student() { 
-        StudentName = StudentName, 
-        Address = Address, 
-        ClassID = ClassID, 
-        DateOfBirth = DateOfBirth, 
-        Email = Email, 
-        Gender = Gender.ToString(), 
-        IsNewCommer = IsNewCommer 
+      return new Student()
+      {
+        StudentName = StudentName,
+        Address = Address,
+        ClassID = ClassID,
+        DateOfBirth = DateOfBirth,
+        Email = Email,
+        Gender = Gender.ToString(),
+        IsNewCommer = IsNewCommer
       };
+    }
   }
 }
