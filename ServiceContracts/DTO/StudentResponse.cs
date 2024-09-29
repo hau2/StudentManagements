@@ -10,6 +10,7 @@ namespace ServiceContracts.DTO
     public DateTime? DateOfBirth { get; set; }
     public string? Gender { get; set; }
     public Guid? ClassID { get; set; }
+    public string? Classroom { get; set; }
     public string? Address { get; set; }
     public bool IsNewCommer { get; set; }
     public double? Age { get; set; }
