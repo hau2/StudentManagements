@@ -47,5 +47,10 @@ namespace Services
     {
       return _classrooms.Select(c => c.ToClassroomResponse()).ToList();
     }
+
+    public ClassroomResponse? GetClassroomByClassID(Guid? classID)
+    {
+      throw new NotImplementedException();
+    }
   }
 }

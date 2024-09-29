@@ -6,5 +6,6 @@ namespace ServiceContracts
   {
     ClassroomResponse AddClassroom(ClassroomAddRequest? classroomAddRequest);
     List<ClassroomResponse> GetAllClassrooms();
+    ClassroomResponse? GetClassroomByClassID(Guid? classID);
   }
 }

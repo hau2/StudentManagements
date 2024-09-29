@@ -100,5 +100,31 @@ namespace Tests
       }
     }
     #endregion
+    #region GetClassroomByClassID
+    [Fact]
+    public void GetClassroomByClassID_NullClassID()
+    {
+      // Arrange
+      Guid? classID = null;
+      // Act
+      ClassroomResponse? classroom_response_form_get_method = _classroomService.GetClassroomByClassID(classID);
+      // Assert
+      Assert.Null(classroom_response_form_get_method);
+    }
+    [Fact]
+    public void GetClassroomByClassID_ValidClassID()
+    {
+      // Arrange
+      ClassroomAddRequest? classroom_add_request = new ClassroomAddRequest()
+      {
+        ClassName = "DSA"
+      };
+      ClassroomResponse? classroom_response_from_add = _classroomService.AddClassroom(classroom_add_request);
+      // Act
+      ClassroomResponse? classroom_response_from_get = _classroomService.GetClassroomByClassID(classroom_response_from_add.ClassID);
+      // Assert
+      Assert.Equal(classroom_response_from_add, classroom_response_from_get);
+    }
+    #endregion
   }
 }
