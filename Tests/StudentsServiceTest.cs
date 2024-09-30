@@ -253,6 +253,7 @@ namespace Tests
         Assert.Contains(studentResponse, studentListFromSearch);
       }
     }
+    [Fact]
     public void GetFilteredStudents_WithSearchByPersonName()
     {
       // Arrange
