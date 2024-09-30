@@ -6,5 +6,6 @@ namespace ServiceContracts
     StudentResponse AddStudent(StudentAddRequest? student);
     List<StudentResponse> GetAllStudents();
     StudentResponse? GetStudentByStudentID(Guid? studentID);
+    List<StudentResponse> GetFilteredStudents(string searchBy, string? serachString);
   }
 }

@@ -55,5 +55,10 @@ namespace Services
       if(student == null) return null;
       return ConvertStudentToStudentResponse(student);
     }
+
+    public List<StudentResponse> GetFilteredStudents(string searchBy, string? serachString)
+    {
+      throw new NotImplementedException();
+    }
   }
 }

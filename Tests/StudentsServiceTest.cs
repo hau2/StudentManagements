@@ -1,9 +1,9 @@
-﻿using ServiceContracts;
+﻿using Entities;
+using ServiceContracts;
 using ServiceContracts.DTO;
 using ServiceContracts.Enums;
 using Services;
 using Xunit.Abstractions;
-using Xunit.Sdk;
 
 namespace Tests
 {
@@ -81,7 +81,7 @@ namespace Tests
     public void GetStudentByStudentID_WithStudentID()
     {
       // Arrange
-      ClassroomAddRequest classroomAddRequest = new ClassroomAddRequest() { ClassName = "DSA"};
+      ClassroomAddRequest classroomAddRequest = new ClassroomAddRequest() { ClassName = "DSA" };
       ClassroomResponse classroomResponse = _classroomService.AddClassroom(classroomAddRequest);
       // Act
       StudentAddRequest studentAddRequest = new StudentAddRequest()
@@ -161,13 +161,13 @@ namespace Tests
       #region PrintResult
       //print studentAddFromAdd
       _testOutputHelper.WriteLine("Expected:");
-      foreach(StudentResponse s in studentAddFromAdd)
+      foreach (StudentResponse s in studentAddFromAdd)
       {
         _testOutputHelper.WriteLine(s.ToString());
       }
       //Act
       List<StudentResponse> studentListFromGet = _studentService.GetAllStudents();
-      //print studentListFromGet
+      //print studentListFromSearch
       _testOutputHelper.WriteLine("Actual:");
       foreach (StudentResponse s in studentListFromGet)
       {
@@ -178,6 +178,156 @@ namespace Tests
       foreach (StudentResponse studentResponse in studentAddFromAdd)
       {
         Assert.Contains(studentResponse, studentListFromGet);
+      }
+    }
+    #endregion
+    #region GetFilteredStudents
+    [Fact]
+    public void GetFilteredStudents_EmptySearchText()
+    {
+      // Arrange
+      ClassroomAddRequest classroomAddRequest1 = new ClassroomAddRequest() { ClassName = "DSA" };
+      ClassroomAddRequest classroomAddRequest2 = new ClassroomAddRequest() { ClassName = "Database" };
+
+      ClassroomResponse classroomResponse1 = _classroomService.AddClassroom(classroomAddRequest1);
+      ClassroomResponse classroomResponse2 = _classroomService.AddClassroom(classroomAddRequest2);
+
+      StudentAddRequest studentAddRequest1 = new StudentAddRequest()
+      {
+        StudentName = "Example name",
+        Address = "Example address",
+        Email = "person@example.com",
+        ClassID = classroomResponse2.ClassID,
+        Gender = GenderOptions.Male,
+        DateOfBirth = DateTime.Parse("2000-01-01"),
+        IsNewCommer = true,
+      };
+      StudentAddRequest studentAddRequest2 = new StudentAddRequest()
+      {
+        StudentName = "Example name 2",
+        Address = "Example address 2",
+        Email = "person2@example.com",
+        ClassID = classroomResponse2.ClassID,
+        Gender = GenderOptions.Male,
+        DateOfBirth = DateTime.Parse("2000-01-01"),
+        IsNewCommer = true,
+      };
+      StudentAddRequest studentAddRequest3 = new StudentAddRequest()
+      {
+        StudentName = "Example name 2",
+        Address = "Example address 2",
+        Email = "person2@example.com",
+        ClassID = classroomResponse1.ClassID,
+        Gender = GenderOptions.Male,
+        DateOfBirth = DateTime.Parse("2000-01-01"),
+        IsNewCommer = true,
+      };
+
+      List<StudentAddRequest> studentAddRequests = new List<StudentAddRequest>() { studentAddRequest1, studentAddRequest2, studentAddRequest3 };
+      List<StudentResponse> studentAddFromAdd = new List<StudentResponse>();
+      foreach (StudentAddRequest studentAddRequest in studentAddRequests)
+      {
+        StudentResponse studentResponse = _studentService.AddStudent(studentAddRequest);
+        studentAddFromAdd.Add(studentResponse);
+      }
+      #region PrintResult
+      //print studentAddFromAdd
+      _testOutputHelper.WriteLine("Expected:");
+      foreach (StudentResponse s in studentAddFromAdd)
+      {
+        _testOutputHelper.WriteLine(s.ToString());
+      }
+      #endregion
+      //Act
+      List<StudentResponse> studentListFromSearch = _studentService.GetFilteredStudents(nameof(Student.StudentName), "");
+      #region PrintResult
+      _testOutputHelper.WriteLine("Actual:");
+      foreach (StudentResponse s in studentListFromSearch)
+      {
+        _testOutputHelper.WriteLine(s.ToString());
+      }
+      #endregion
+      //Assert
+      foreach (StudentResponse studentResponse in studentAddFromAdd)
+      {
+        Assert.Contains(studentResponse, studentListFromSearch);
+      }
+    }
+    public void GetFilteredStudents_WithSearchByPersonName()
+    {
+      // Arrange
+      string searchValue = "Example name 2";
+      ClassroomAddRequest classroomAddRequest1 = new ClassroomAddRequest() { ClassName = "DSA" };
+      ClassroomAddRequest classroomAddRequest2 = new ClassroomAddRequest() { ClassName = "Database" };
+
+      ClassroomResponse classroomResponse1 = _classroomService.AddClassroom(classroomAddRequest1);
+      ClassroomResponse classroomResponse2 = _classroomService.AddClassroom(classroomAddRequest2);
+
+      StudentAddRequest studentAddRequest1 = new StudentAddRequest()
+      {
+        StudentName = "Example name",
+        Address = "Example address",
+        Email = "person@example.com",
+        ClassID = classroomResponse2.ClassID,
+        Gender = GenderOptions.Male,
+        DateOfBirth = DateTime.Parse("2000-01-01"),
+        IsNewCommer = true,
+      };
+      StudentAddRequest studentAddRequest2 = new StudentAddRequest()
+      {
+        StudentName = "Example name 2",
+        Address = "Example address 2",
+        Email = "person2@example.com",
+        ClassID = classroomResponse2.ClassID,
+        Gender = GenderOptions.Male,
+        DateOfBirth = DateTime.Parse("2000-01-01"),
+        IsNewCommer = true,
+      };
+      StudentAddRequest studentAddRequest3 = new StudentAddRequest()
+      {
+        StudentName = "Example name 2",
+        Address = "Example address 2",
+        Email = "person2@example.com",
+        ClassID = classroomResponse1.ClassID,
+        Gender = GenderOptions.Male,
+        DateOfBirth = DateTime.Parse("2000-01-01"),
+        IsNewCommer = true,
+      };
+
+      List<StudentAddRequest> studentAddRequests = new List<StudentAddRequest>() { studentAddRequest1, studentAddRequest2, studentAddRequest3 };
+      List<StudentResponse> studentAddFromAdd = new List<StudentResponse>();
+      foreach (StudentAddRequest studentAddRequest in studentAddRequests)
+      {
+        StudentResponse studentResponse = _studentService.AddStudent(studentAddRequest);
+        studentAddFromAdd.Add(studentResponse);
+      }
+      #region PrintResult
+      //print studentAddFromAdd
+      _testOutputHelper.WriteLine("Expected:");
+      foreach (StudentResponse s in studentAddFromAdd)
+      {
+        _testOutputHelper.WriteLine(s.ToString());
+      }
+      #endregion
+      //Act
+      List<StudentResponse> studentListFromSearch = _studentService.GetFilteredStudents(nameof(Student.StudentName), searchValue);
+      #region PrintResult
+      _testOutputHelper.WriteLine("Actual:");
+      foreach (StudentResponse s in studentListFromSearch)
+      {
+        _testOutputHelper.WriteLine(s.ToString());
+      }
+      #endregion
+      //Assert
+      foreach (StudentResponse s in studentAddFromAdd)
+      {
+        if(s.StudentName != null)
+        {
+          if (s.StudentName.Contains(searchValue, StringComparison.OrdinalIgnoreCase))
+          {
+            Assert.Contains(s, studentListFromSearch);
+          }
+        }
       }
     }
     #endregion
