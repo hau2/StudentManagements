@@ -62,7 +62,7 @@ namespace Tests
       Assert.Contains(student_response_from_add, student_list);
     }
     #endregion
-    #region
+    #region GetStudentByStudentID
     [Fact]
     public void GetStudentByStudentID_NullStudentID()
     {
@@ -95,6 +95,73 @@ namespace Tests
       StudentResponse? studentResponseFromGet = _studentService.GetStudentByStudentID(studentResponseFromAdd.StudentID);
       // Assert
       Assert.Equal(studentResponseFromAdd, studentResponseFromGet);
+    }
+    #endregion
+    #region GetAllStudent
+    [Fact]
+    public void GetAllStudents_EmptyList()
+    {
+      // Act
+      List<StudentResponse> studentResponses = _studentService.GetAllStudents();
+      // Assert
+      Assert.Empty(studentResponses);
+    }
+    [Fact]
+    public void GetAllStudents_AddFewStudents()
+    {
+      // Arrange
+      ClassroomAddRequest classroomAddRequest1 = new ClassroomAddRequest() { ClassName = "DSA" };
+      ClassroomAddRequest classroomAddRequest2 = new ClassroomAddRequest() { ClassName = "Database" };
+
+      ClassroomResponse classroomResponse1 = _classroomService.AddClassroom(classroomAddRequest1);
+      ClassroomResponse classroomResponse2 = _classroomService.AddClassroom(classroomAddRequest2);
+
+      StudentAddRequest studentAddRequest1 = new StudentAddRequest()
+      {
+        StudentName = "Example name",
+        Address = "Example address",
+        Email = "person@example.com",
+        ClassID = classroomResponse2.ClassID,
+        Gender = GenderOptions.Male,
+        DateOfBirth = DateTime.Parse("2000-01-01"),
+        IsNewCommer = true,
+      };
+      StudentAddRequest studentAddRequest2 = new StudentAddRequest()
+      {
+        StudentName = "Example name 2",
+        Address = "Example address 2",
+        Email = "person2@example.com",
+        ClassID = classroomResponse2.ClassID,
+        Gender = GenderOptions.Male,
+        DateOfBirth = DateTime.Parse("2000-01-01"),
+        IsNewCommer = true,
+      };
+      StudentAddRequest studentAddRequest3 = new StudentAddRequest()
+      {
+        StudentName = "Example name 2",
+        Address = "Example address 2",
+        Email = "person2@example.com",
+        ClassID = classroomResponse1.ClassID,
+        Gender = GenderOptions.Male,
+        DateOfBirth = DateTime.Parse("2000-01-01"),
+        IsNewCommer = true,
+      };
+
+      List<StudentAddRequest> studentAddRequests = new List<StudentAddRequest>() { studentAddRequest1, studentAddRequest2, studentAddRequest3 };
+      List<StudentResponse> studentAddFromAdd = new List<StudentResponse>();
+      foreach (StudentAddRequest studentAddRequest in studentAddRequests)
+      {
+        StudentResponse studentResponse = _studentService.AddStudent(studentAddRequest);
+        studentAddFromAdd.Add(studentResponse);
+      }
+
+      //Act
+      List<StudentResponse> studentListFromGet = _studentService.GetAllStudents();
+      //Assert
+      foreach(StudentResponse studentResponse in studentAddFromAdd)
+      {
+        Assert.Contains(studentResponse, studentListFromGet);
+      }
     }
     #endregion
   }
