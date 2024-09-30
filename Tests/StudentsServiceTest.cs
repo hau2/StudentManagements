@@ -167,7 +167,7 @@ namespace Tests
       }
       //Act
       List<StudentResponse> studentListFromGet = _studentService.GetAllStudents();
-      //print studentListFromSearch
+      //print studentListFromSort
       _testOutputHelper.WriteLine("Actual:");
       foreach (StudentResponse s in studentListFromGet)
       {
@@ -329,6 +329,81 @@ namespace Tests
             Assert.Contains(s, studentListFromSearch);
           }
         }
+      }
+    }
+    #endregion
+    #region GetSortedStudents
+    [Fact]
+    public void GetSortedStudents()
+    {
+      // Arrange
+      ClassroomAddRequest classroomAddRequest1 = new ClassroomAddRequest() { ClassName = "DSA" };
+      ClassroomAddRequest classroomAddRequest2 = new ClassroomAddRequest() { ClassName = "Database" };
+
+      ClassroomResponse classroomResponse1 = _classroomService.AddClassroom(classroomAddRequest1);
+      ClassroomResponse classroomResponse2 = _classroomService.AddClassroom(classroomAddRequest2);
+
+      StudentAddRequest studentAddRequest1 = new StudentAddRequest()
+      {
+        StudentName = "Example name",
+        Address = "Example address",
+        Email = "person@example.com",
+        ClassID = classroomResponse2.ClassID,
+        Gender = GenderOptions.Male,
+        DateOfBirth = DateTime.Parse("2000-01-01"),
+        IsNewCommer = true,
+      };
+      StudentAddRequest studentAddRequest2 = new StudentAddRequest()
+      {
+        StudentName = "Example name 2",
+        Address = "Example address 2",
+        Email = "person2@example.com",
+        ClassID = classroomResponse2.ClassID,
+        Gender = GenderOptions.Male,
+        DateOfBirth = DateTime.Parse("2000-01-01"),
+        IsNewCommer = true,
+      };
+      StudentAddRequest studentAddRequest3 = new StudentAddRequest()
+      {
+        StudentName = "Example name 2",
+        Address = "Example address 2",
+        Email = "person2@example.com",
+        ClassID = classroomResponse1.ClassID,
+        Gender = GenderOptions.Male,
+        DateOfBirth = DateTime.Parse("2000-01-01"),
+        IsNewCommer = true,
+      };
+
+      List<StudentAddRequest> studentAddRequests = new List<StudentAddRequest>() { studentAddRequest1, studentAddRequest2, studentAddRequest3 };
+      List<StudentResponse> studentAddFromAdd = new List<StudentResponse>();
+      foreach (StudentAddRequest studentAddRequest in studentAddRequests)
+      {
+        StudentResponse studentResponse = _studentService.AddStudent(studentAddRequest);
+        studentAddFromAdd.Add(studentResponse);
+      }
+      #region PrintResult
+      //print studentAddFromAdd
+      _testOutputHelper.WriteLine("Expected:");
+      foreach (StudentResponse s in studentAddFromAdd)
+      {
+        _testOutputHelper.WriteLine(s.ToString());
+      }
+      #endregion
+      List<StudentResponse> allStudents = _studentService.GetAllStudents();
+      //Act
+      List<StudentResponse> studentListFromSort = _studentService.GetSortedStudents(allStudents, nameof(Student.StudentName), SortOrderOptions.DESC);
+      #region PrintResult
+      _testOutputHelper.WriteLine("Actual:");
+      foreach (StudentResponse s in studentListFromSort)
+      {
+        _testOutputHelper.WriteLine(s.ToString());
+      }
+      #endregion
+      studentAddFromAdd = studentAddFromAdd.OrderByDescending(x => x.StudentName).ToList();
+      //Assert
+      for (int i = 0; i < studentListFromSort.Count; i++)
+      {
+        Assert.Equal(studentAddFromAdd[i], studentListFromSort[i]);
       }
     }
     #endregion

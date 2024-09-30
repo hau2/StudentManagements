@@ -2,6 +2,7 @@
 using Entities;
 using ServiceContracts.DTO;
 using Services.Helpers;
+using ServiceContracts.Enums;
 
 namespace Services
 {
@@ -90,6 +91,11 @@ namespace Services
         default: matchingStudents = allStudents; break;
       }
       return matchingStudents;
+    }
+
+    public List<StudentResponse> GetSortedStudents(List<StudentResponse> allStudents, string sortBy, SortOrderOptions sortOrder)
+    {
+      throw new NotImplementedException();
     }
   }
 }
