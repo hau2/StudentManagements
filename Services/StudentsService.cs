@@ -1,8 +1,8 @@
-﻿using ServiceContracts;
-using Entities;
+﻿using Entities;
+using ServiceContracts;
 using ServiceContracts.DTO;
-using Services.Helpers;
 using ServiceContracts.Enums;
+using Services.Helpers;
 
 namespace Services
 {
@@ -23,14 +23,14 @@ namespace Services
     }
     public StudentResponse AddStudent(StudentAddRequest? studentAddRequest)
     {
-      if(studentAddRequest == null)
+      if (studentAddRequest == null)
       {
         throw new ArgumentNullException(nameof(studentAddRequest));
       }
       // Model validation
       ValidationHelper.ModelValidation(studentAddRequest);
       // Validation StudentName
-      if(string.IsNullOrEmpty(studentAddRequest.StudentName))
+      if (string.IsNullOrEmpty(studentAddRequest.StudentName))
       {
         throw new ArgumentException("StudentName can't be blank");
       }
@@ -51,9 +51,9 @@ namespace Services
 
     public StudentResponse? GetStudentByStudentID(Guid? studentID)
     {
-      if(studentID == null) return null;
+      if (studentID == null) return null;
       Student? student = _students.FirstOrDefault(s => s.StudentID == studentID);
-      if(student == null) return null;
+      if (student == null) return null;
       return ConvertStudentToStudentResponse(student);
     }
 
@@ -62,7 +62,7 @@ namespace Services
       List<StudentResponse> allStudents = GetAllStudents();
       List<StudentResponse> matchingStudents = allStudents;
 
-      if(string.IsNullOrEmpty(searchBy) || string.IsNullOrEmpty(searchString))
+      if (string.IsNullOrEmpty(searchBy) || string.IsNullOrEmpty(searchString))
       {
         return matchingStudents;
       }
@@ -95,7 +95,29 @@ namespace Services
 
     public List<StudentResponse> GetSortedStudents(List<StudentResponse> allStudents, string sortBy, SortOrderOptions sortOrder)
     {
-      throw new NotImplementedException();
+      if (string.IsNullOrEmpty(sortBy)) return allStudents;
+      List<StudentResponse> sortedStudents = (sortBy, sortOrder)
+      switch
+      {
+        (nameof(StudentResponse.StudentName), SortOrderOptions.ASC) => allStudents.OrderBy(s => s.StudentName, StringComparer.OrdinalIgnoreCase).ToList(),
+        (nameof(StudentResponse.StudentName), SortOrderOptions.DESC) => allStudents.OrderByDescending(s => s.StudentName, StringComparer.OrdinalIgnoreCase).ToList(),
+        (nameof(StudentResponse.Email), SortOrderOptions.ASC) => allStudents.OrderBy(s => s.Email, StringComparer.OrdinalIgnoreCase).ToList(),
+        (nameof(StudentResponse.Email), SortOrderOptions.DESC) => allStudents.OrderByDescending(s => s.Email, StringComparer.OrdinalIgnoreCase).ToList(),
+        (nameof(StudentResponse.DateOfBirth), SortOrderOptions.ASC) => allStudents.OrderBy(s => s.DateOfBirth).ToList(),
+        (nameof(StudentResponse.DateOfBirth), SortOrderOptions.DESC) => allStudents.OrderByDescending(s => s.DateOfBirth).ToList(),
+        (nameof(StudentResponse.Age), SortOrderOptions.ASC) => allStudents.OrderBy(s => s.Age).ToList(),
+        (nameof(StudentResponse.Age), SortOrderOptions.DESC) => allStudents.OrderByDescending(s => s.Age).ToList(),
+        (nameof(StudentResponse.Gender), SortOrderOptions.ASC) => allStudents.OrderBy(s => s.Gender, StringComparer.OrdinalIgnoreCase).ToList(),
+        (nameof(StudentResponse.Gender), SortOrderOptions.DESC) => allStudents.OrderByDescending(s => s.Gender, StringComparer.OrdinalIgnoreCase).ToList(),
+        (nameof(StudentResponse.Classroom), SortOrderOptions.ASC) => allStudents.OrderBy(s => s.Classroom, StringComparer.OrdinalIgnoreCase).ToList(),
+        (nameof(StudentResponse.Classroom), SortOrderOptions.DESC) => allStudents.OrderByDescending(s => s.Classroom, StringComparer.OrdinalIgnoreCase).ToList(),
+        (nameof(StudentResponse.Address), SortOrderOptions.ASC) => allStudents.OrderBy(s => s.Address, StringComparer.OrdinalIgnoreCase).ToList(),
+        (nameof(StudentResponse.Address), SortOrderOptions.DESC) => allStudents.OrderByDescending(s => s.Address, StringComparer.OrdinalIgnoreCase).ToList(),
+        (nameof(StudentResponse.IsNewCommer), SortOrderOptions.ASC) => allStudents.OrderBy(s => s.IsNewCommer).ToList(),
+        (nameof(StudentResponse.IsNewCommer), SortOrderOptions.DESC) => allStudents.OrderByDescending(s => s.IsNewCommer).ToList(),
+        _ => allStudents
+      };
+      return sortedStudents;
     }
   }
 }

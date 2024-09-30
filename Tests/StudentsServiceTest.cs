@@ -381,6 +381,7 @@ namespace Tests
         StudentResponse studentResponse = _studentService.AddStudent(studentAddRequest);
         studentAddFromAdd.Add(studentResponse);
       }
+      studentAddFromAdd = studentAddFromAdd.OrderByDescending(x => x.StudentName).ToList();
       #region PrintResult
       //print studentAddFromAdd
       _testOutputHelper.WriteLine("Expected:");
@@ -399,7 +400,6 @@ namespace Tests
         _testOutputHelper.WriteLine(s.ToString());
       }
       #endregion
-      studentAddFromAdd = studentAddFromAdd.OrderByDescending(x => x.StudentName).ToList();
       //Assert
       for (int i = 0; i < studentListFromSort.Count; i++)
       {
