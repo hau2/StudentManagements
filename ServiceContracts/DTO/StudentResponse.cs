@@ -33,6 +33,10 @@ namespace ServiceContracts.DTO
     {
       return base.GetHashCode();
     }
+    public override string ToString()
+    {
+      return $"Student: {StudentID}-{StudentName}-{Email}-{DateOfBirth?.ToString("dd MMM yyyy")}-{Gender}-{ClassID}-{Classroom}-{IsNewCommer}";
+    }
   }
   public static class StudentExtension
   {

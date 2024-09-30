@@ -2,6 +2,8 @@
 using ServiceContracts.DTO;
 using ServiceContracts.Enums;
 using Services;
+using Xunit.Abstractions;
+using Xunit.Sdk;
 
 namespace Tests
 {
@@ -9,8 +11,10 @@ namespace Tests
   {
     private readonly IStudentService _studentService;
     private readonly IClassroomService _classroomService;
-    public StudentsServiceTest()
+    private readonly ITestOutputHelper _testOutputHelper;
+    public StudentsServiceTest(ITestOutputHelper testOutputHelper)
     {
+      _testOutputHelper = testOutputHelper;
       _studentService = new StudentsService();
       _classroomService = new ClassroomsService();
     }
@@ -154,11 +158,24 @@ namespace Tests
         StudentResponse studentResponse = _studentService.AddStudent(studentAddRequest);
         studentAddFromAdd.Add(studentResponse);
       }
-
+      #region PrintResult
+      //print studentAddFromAdd
+      _testOutputHelper.WriteLine("Expected:");
+      foreach(StudentResponse s in studentAddFromAdd)
+      {
+        _testOutputHelper.WriteLine(s.ToString());
+      }
       //Act
       List<StudentResponse> studentListFromGet = _studentService.GetAllStudents();
+      //print studentListFromGet
+      _testOutputHelper.WriteLine("Actual:");
+      foreach (StudentResponse s in studentListFromGet)
+      {
+        _testOutputHelper.WriteLine(s.ToString());
+      }
+      #endregion
       //Assert
-      foreach(StudentResponse studentResponse in studentAddFromAdd)
+      foreach (StudentResponse studentResponse in studentAddFromAdd)
       {
         Assert.Contains(studentResponse, studentListFromGet);
       }
