@@ -5,5 +5,6 @@ namespace ServiceContracts
   {
     StudentResponse AddStudent(StudentAddRequest? student);
     List<StudentResponse> GetAllStudents();
+    StudentResponse? GetStudentByStudentID(Guid? studentID);
   }
 }

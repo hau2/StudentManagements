@@ -1,13 +1,14 @@
 ﻿using ServiceContracts;
 using ServiceContracts.DTO;
-using Services;
 using ServiceContracts.Enums;
+using Services;
 
 namespace Tests
 {
   public class StudentsServiceTest
   {
     private readonly IStudentService _studentService;
+    private readonly IClassroomService _classroomService;
     public StudentsServiceTest()
     {
       _studentService = new StudentsService();
@@ -58,6 +59,41 @@ namespace Tests
       // Assert
       Assert.True(student_response_from_add.StudentID != Guid.Empty);
       Assert.Contains(student_response_from_add, student_list);
+    }
+    #endregion
+    #region
+    [Fact]
+    public void GetStudentByStudentID_NullStudentID()
+    {
+      // Arrange
+      Guid? studentID = null;
+      // Atc
+      StudentResponse? student_response_from_get = _studentService.GetStudentByStudentID(studentID);
+      // Assert
+      Assert.Null(student_response_from_get);
+    }
+    [Fact]
+    public void GetStudentByStudentID_WithStudentID()
+    {
+      // Arrange
+      ClassroomAddRequest classroomAddRequest = new ClassroomAddRequest() { ClassName = "DSA"};
+      ClassroomResponse classroomResponse = _classroomService.AddClassroom(classroomAddRequest);
+      // Act
+      StudentAddRequest studentAddRequest = new StudentAddRequest()
+      {
+        StudentName = "Test",
+        Email = "Email",
+        Address = "Address",
+        ClassID = classroomResponse.ClassID,
+        Gender = GenderOptions.Male,
+        DateOfBirth = DateTime.Parse("2000-01-01"),
+        IsNewCommer = true,
+      };
+
+      StudentResponse studentResponseFromAdd = _studentService.AddStudent(studentAddRequest);
+      StudentResponse? studentResponseFromGet = _studentService.GetStudentByStudentID(studentResponseFromAdd.StudentID);
+      // Assert
+      Assert.Equal(studentResponseFromAdd, studentResponseFromGet);
     }
     #endregion
   }
