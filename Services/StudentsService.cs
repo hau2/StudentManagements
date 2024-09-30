@@ -1,6 +1,7 @@
 ﻿using ServiceContracts;
 using Entities;
 using ServiceContracts.DTO;
+using Services.Helpers;
 
 namespace Services
 {
@@ -25,7 +26,8 @@ namespace Services
       {
         throw new ArgumentNullException(nameof(studentAddRequest));
       }
-
+      // Model validation
+      ValidationHelper.ModelValidation(studentAddRequest);
       // Validation StudentName
       if(string.IsNullOrEmpty(studentAddRequest.StudentName))
       {
