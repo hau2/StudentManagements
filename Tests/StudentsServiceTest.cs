@@ -12,6 +12,7 @@ namespace Tests
     public StudentsServiceTest()
     {
       _studentService = new StudentsService();
+      _classroomService = new ClassroomsService();
     }
     #region AddStudent
     [Fact]
@@ -82,7 +83,7 @@ namespace Tests
       StudentAddRequest studentAddRequest = new StudentAddRequest()
       {
         StudentName = "Test",
-        Email = "Email",
+        Email = "Email@example.com",
         Address = "Address",
         ClassID = classroomResponse.ClassID,
         Gender = GenderOptions.Male,

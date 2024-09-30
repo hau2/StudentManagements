@@ -50,7 +50,10 @@ namespace Services
 
     public StudentResponse? GetStudentByStudentID(Guid? studentID)
     {
-      throw new NotImplementedException();
+      if(studentID == null) return null;
+      Student? student = _students.FirstOrDefault(s => s.StudentID == studentID);
+      if(student == null) return null;
+      return ConvertStudentToStudentResponse(student);
     }
   }
 }
