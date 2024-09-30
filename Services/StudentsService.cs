@@ -45,7 +45,7 @@ namespace Services
 
     public List<StudentResponse> GetAllStudents()
     {
-      throw new NotImplementedException();
+      return _students.Select(s => s.ToStudentResponse()).ToList();
     }
 
     public StudentResponse? GetStudentByStudentID(Guid? studentID)
