@@ -10,10 +10,18 @@ namespace Services
     private readonly List<Classroom> _classrooms;
 
     // constructor
-    public ClassroomsService()
+    public ClassroomsService(bool initialize = true)
     {
       _classrooms = new List<Classroom>();
-    }
+      if(initialize)
+      {
+        _classrooms.AddRange(new List<Classroom>()
+        {
+					new Classroom() { ClassID = Guid.Parse("8E7E3442-6B8D-4C25-9B2E-054AFF4BCBBE"), ClassName = "DSA" },
+				  new Classroom() { ClassID = Guid.Parse("ED59FCD0-8DA4-4AD1-952E-86B40DF4E2ED"), ClassName = "Database" }
+				});
+			}
+		}
     public ClassroomResponse AddClassroom(ClassroomAddRequest classroomAddRequest)
     {
       // Validation: classroomAddRequest paramater can't be null

@@ -10,10 +10,50 @@ namespace Services
   {
     private readonly List<Student> _students;
     private readonly IClassroomService _classroomService;
-    public StudentsService()
+    public StudentsService(bool initialize = true)
     {
       _students = new List<Student>();
       _classroomService = new ClassroomsService();
+
+      if(initialize)
+      {
+        _students.AddRange(new List<Student>()
+        {
+          new Student()
+          {
+            StudentID = Guid.Parse("DD156302-871C-4B2B-84D4-6A4C4D56EEF8"),
+            ClassID = Guid.Parse("8E7E3442-6B8D-4C25-9B2E-054AFF4BCBBE"),
+						StudentName = "Student 1",
+            Address = "Address 1",
+            DateOfBirth = DateTime.Parse("2000-01-01"),
+            Email = "1@gmail.com",
+            Gender = "Male",
+            IsNewCommer = true,
+          },
+					new Student()
+					{
+						StudentID = Guid.Parse("D0FEBB69-0B32-45CE-8708-7475FBD92F3C"),
+						ClassID = Guid.Parse("8E7E3442-6B8D-4C25-9B2E-054AFF4BCBBE"),
+						StudentName = "Student 2",
+						Address = "Address 2",
+						DateOfBirth = DateTime.Parse("2002-01-01"),
+						Email = "2@gmail.com",
+						Gender = "Female",
+						IsNewCommer = true,
+					},
+					 new Student()
+					{
+						StudentID = Guid.Parse("6485FA88-7181-47D9-8594-763DF1222A1C"),
+						ClassID = Guid.Parse("ED59FCD0-8DA4-4AD1-952E-86B40DF4E2ED"),
+						StudentName = "Student 3",
+						Address = "Address 3",
+						DateOfBirth = DateTime.Parse("2005-01-01"),
+						Email = "3@gmail.com",
+						Gender = "Male",
+						IsNewCommer = false,
+					},
+				});
+      }
     }
     private StudentResponse ConvertStudentToStudentResponse(Student student)
     {

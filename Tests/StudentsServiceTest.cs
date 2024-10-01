@@ -16,7 +16,7 @@ namespace Tests
     {
       _testOutputHelper = testOutputHelper;
       _studentService = new StudentsService();
-      _classroomService = new ClassroomsService();
+      _classroomService = new ClassroomsService(false);
     }
     #region AddStudent
     [Fact]

@@ -10,7 +10,7 @@ namespace Tests
 
     public ClassroomsServiceTest()
     {
-      _classroomService = new ClassroomsService();
+      _classroomService = new ClassroomsService(false);
     }
 
     #region AddClassroom
