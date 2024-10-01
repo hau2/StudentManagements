@@ -422,7 +422,7 @@ namespace Tests
       // Arrange
       StudentUpdateRequest studentUpdateRequest = new StudentUpdateRequest() { StudentID = Guid.NewGuid()};
       // Assert
-      Assert.Throws<ArgumentNullException>(() => _studentService.UpdateStudent(studentUpdateRequest));
+      Assert.Throws<ArgumentException>(() => _studentService.UpdateStudent(studentUpdateRequest));
     }
     [Fact]
     public void UpdateStudent_StudentNameIsNull()
@@ -432,13 +432,15 @@ namespace Tests
       ClassroomResponse classroomResponseFromAdd = _classroomService.AddClassroom(classroomAddRequest);
       StudentAddRequest studentAddRequest = new StudentAddRequest() { 
         StudentName = "John",
+        Email = "AA@gmail.com",
+        Gender = GenderOptions.Male,
         ClassID = classroomResponseFromAdd.ClassID,
       };
       StudentResponse studentResponseFromAdd = _studentService.AddStudent(studentAddRequest);
       StudentUpdateRequest studentUpdateRequest = studentResponseFromAdd.ToStudentUpdateRequest();
       studentUpdateRequest.StudentName = null;
       // Assert
-      Assert.Throws<ArgumentNullException>(() => _studentService.UpdateStudent(studentUpdateRequest));
+      Assert.Throws<ArgumentException>(() => _studentService.UpdateStudent(studentUpdateRequest));
     }
     [Fact]
     public void UpdateStudent_StudentFullDetailsUpdation()
@@ -464,7 +466,7 @@ namespace Tests
       StudentResponse studentResponseFromUpdate = _studentService.UpdateStudent(studentUpdateRequest);
       StudentResponse? studentResponseFromGet = _studentService.GetStudentByStudentID(studentUpdateRequest.StudentID);
       // Assert
-      Assert.Equal(studentResponseFromAdd, studentResponseFromGet);
+      Assert.Equal(studentResponseFromUpdate, studentResponseFromGet);
     }
     #endregion
   }

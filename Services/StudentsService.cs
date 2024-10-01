@@ -122,7 +122,22 @@ namespace Services
 
     public StudentResponse UpdateStudent(StudentUpdateRequest studentUpdateRequest)
     {
-      throw new NotImplementedException();
+      if(studentUpdateRequest == null) throw new ArgumentNullException(nameof(studentUpdateRequest));
+      // validation
+      ValidationHelper.ModelValidation(studentUpdateRequest);
+      // get matching student object to update
+      Student? matchingStudent = _students.FirstOrDefault(s => s.StudentID == studentUpdateRequest.StudentID);
+      if (matchingStudent == null) throw new ArgumentException("Given student id doesn't exist");
+      // update all details
+      matchingStudent.StudentName = studentUpdateRequest.StudentName;
+      matchingStudent.Email = studentUpdateRequest.Email;
+      matchingStudent.Address = studentUpdateRequest.Address;
+      matchingStudent.Gender = studentUpdateRequest.Gender.ToString();
+      matchingStudent.DateOfBirth = studentUpdateRequest.DateOfBirth;
+      matchingStudent.ClassID = studentUpdateRequest.ClassID;
+      matchingStudent.IsNewCommer = studentUpdateRequest.IsNewCommer;
+
+      return matchingStudent.ToStudentResponse();
     }
   }
 }
