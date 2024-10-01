@@ -139,5 +139,10 @@ namespace Services
 
       return matchingStudent.ToStudentResponse();
     }
+
+    public bool DeleteStudent(Guid studentID)
+    {
+      throw new NotImplementedException();
+    }
   }
 }

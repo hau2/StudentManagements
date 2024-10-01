@@ -10,5 +10,6 @@ namespace ServiceContracts
     List<StudentResponse> GetFilteredStudents(string searchBy, string? serachString);
     List<StudentResponse> GetSortedStudents(List<StudentResponse> allStudents,string sortBy, SortOrderOptions sortOrder);
     StudentResponse UpdateStudent(StudentUpdateRequest studentUpdateRequest);
+    bool DeleteStudent(Guid studentID);
   }
 }

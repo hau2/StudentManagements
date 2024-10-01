@@ -469,5 +469,59 @@ namespace Tests
       Assert.Equal(studentResponseFromUpdate, studentResponseFromGet);
     }
     #endregion
+    #region DeleteStudent
+    [Fact]
+    public void DeleteStudent_InvalidStudentID()
+    {
+      // Arrange
+      ClassroomAddRequest classroomAddRequest = new ClassroomAddRequest()
+      {
+        ClassName = "DSA",
+      };
+      ClassroomResponse classroomResponseFromAdd = _classroomService.AddClassroom(classroomAddRequest);
+
+      StudentAddRequest? studentAddRequest = new StudentAddRequest()
+      {
+        StudentName = "Example name",
+        Address = "Example address",
+        Email = "person@example.com",
+        ClassID = classroomResponseFromAdd.ClassID,
+        Gender = GenderOptions.Male,
+        DateOfBirth = DateTime.Parse("2000-01-01"),
+        IsNewCommer = true,
+      };
+      _studentService.AddStudent(studentAddRequest);
+      // Act
+      bool isDeleted = _studentService.DeleteStudent(Guid.NewGuid());
+      // Assert
+      Assert.False(isDeleted);
+    }
+    [Fact]
+    public void DeleteStudent_ValidStudentID()
+    {
+      // Arrange
+      ClassroomAddRequest classroomAddRequest = new ClassroomAddRequest()
+      {
+        ClassName = "DSA",
+      };
+      ClassroomResponse classroomResponseFromAdd = _classroomService.AddClassroom(classroomAddRequest);
+
+      StudentAddRequest? studentAddRequest = new StudentAddRequest()
+      {
+        StudentName = "Example name",
+        Address = "Example address",
+        Email = "person@example.com",
+        ClassID = classroomResponseFromAdd.ClassID,
+        Gender = GenderOptions.Male,
+        DateOfBirth = DateTime.Parse("2000-01-01"),
+        IsNewCommer = true,
+      };
+      StudentResponse studentFromAdd = _studentService.AddStudent(studentAddRequest);
+      // Act
+      bool isDeleted = _studentService.DeleteStudent(studentFromAdd.StudentID);
+      // Assert
+      Assert.True(isDeleted);
+    }
+    #endregion
   }
 }
