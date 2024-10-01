@@ -407,5 +407,65 @@ namespace Tests
       }
     }
     #endregion
+    #region UpdateStudent
+    [Fact]
+    public void UpdateStudent_NullStudent()
+    {
+      // Arrange
+      StudentUpdateRequest studentUpdateRequest = null;
+      // Assert
+      Assert.Throws<ArgumentNullException>(() => _studentService.UpdateStudent(studentUpdateRequest));
+    }
+    [Fact]
+    public void UpdateStudent_InvalidStudentID()
+    {
+      // Arrange
+      StudentUpdateRequest studentUpdateRequest = new StudentUpdateRequest() { StudentID = Guid.NewGuid()};
+      // Assert
+      Assert.Throws<ArgumentNullException>(() => _studentService.UpdateStudent(studentUpdateRequest));
+    }
+    [Fact]
+    public void UpdateStudent_StudentNameIsNull()
+    {
+      // Arrange
+      ClassroomAddRequest classroomAddRequest = new ClassroomAddRequest() { ClassName = "DSA" };
+      ClassroomResponse classroomResponseFromAdd = _classroomService.AddClassroom(classroomAddRequest);
+      StudentAddRequest studentAddRequest = new StudentAddRequest() { 
+        StudentName = "John",
+        ClassID = classroomResponseFromAdd.ClassID,
+      };
+      StudentResponse studentResponseFromAdd = _studentService.AddStudent(studentAddRequest);
+      StudentUpdateRequest studentUpdateRequest = studentResponseFromAdd.ToStudentUpdateRequest();
+      studentUpdateRequest.StudentName = null;
+      // Assert
+      Assert.Throws<ArgumentNullException>(() => _studentService.UpdateStudent(studentUpdateRequest));
+    }
+    [Fact]
+    public void UpdateStudent_StudentFullDetailsUpdation()
+    {
+      // Arrange
+      ClassroomAddRequest classroomAddRequest = new ClassroomAddRequest() { ClassName = "DSA" };
+      ClassroomResponse classroomResponseFromAdd = _classroomService.AddClassroom(classroomAddRequest);
+      StudentAddRequest studentAddRequest = new StudentAddRequest()
+      {
+        StudentName = "John",
+        ClassID = classroomResponseFromAdd.ClassID,
+        Address = "A",
+        Email = "A@gmail.com",
+        Gender = GenderOptions.Male,
+        DateOfBirth = DateTime.Parse("2000-01-01"),
+        IsNewCommer = true,
+      };
+      StudentResponse studentResponseFromAdd = _studentService.AddStudent(studentAddRequest);
+      StudentUpdateRequest studentUpdateRequest = studentResponseFromAdd.ToStudentUpdateRequest();
+      studentUpdateRequest.StudentName = "B";
+      studentUpdateRequest.Email = "B@gmail.com";
+      // Act
+      StudentResponse studentResponseFromUpdate = _studentService.UpdateStudent(studentUpdateRequest);
+      StudentResponse? studentResponseFromGet = _studentService.GetStudentByStudentID(studentUpdateRequest.StudentID);
+      // Assert
+      Assert.Equal(studentResponseFromAdd, studentResponseFromGet);
+    }
+    #endregion
   }
 }

@@ -119,5 +119,10 @@ namespace Services
       };
       return sortedStudents;
     }
+
+    public StudentResponse UpdateStudent(StudentUpdateRequest studentUpdateRequest)
+    {
+      throw new NotImplementedException();
+    }
   }
 }
