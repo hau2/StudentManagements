@@ -13,9 +13,20 @@ namespace StudentManagements.Controllers
 		}
 		[Route("/")]
 		[Route("students/index")]
-		public IActionResult Index()
+		public IActionResult Index(string searchBy, string? searchString)
 		{
-			List<StudentResponse> students = _studentService.GetAllStudents();
+			ViewBag.SearchFields = new Dictionary<string, string>()
+			{
+				{ nameof(StudentResponse.StudentName), "Student Name" },
+				{ nameof(StudentResponse.Email), "Email" },
+				{ nameof(StudentResponse.DateOfBirth), "Date of Birth" },
+				{ nameof(StudentResponse.Gender), "Gender" },
+				{ nameof(StudentResponse.ClassID), "Classroom" },
+				{ nameof(StudentResponse.Address), "Address" }
+			};
+			List<StudentResponse> students = _studentService.GetFilteredStudents(searchBy, searchString);
+			ViewBag.CurrentSearchBy = searchBy;
+			ViewBag.CurrentSearchString = searchString;
 			return View(students);
 		}
 	}

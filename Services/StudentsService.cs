@@ -110,22 +110,22 @@ namespace Services
       StringComparison comparison = StringComparison.OrdinalIgnoreCase;
       switch (searchBy)
       {
-        case nameof(Student.StudentName):
+        case nameof(StudentResponse.StudentName):
           matchingStudents = allStudents.Where(s => (!string.IsNullOrEmpty(s.StudentName) ? s.StudentName.Contains(searchString, comparison) : true)).ToList();
           break;
-        case nameof(Student.Email):
+        case nameof(StudentResponse.Email):
           matchingStudents = allStudents.Where(s => (!string.IsNullOrEmpty(s.Email) ? s.Email.Contains(searchString, comparison) : true)).ToList();
           break;
-        case nameof(Student.DateOfBirth):
+        case nameof(StudentResponse.DateOfBirth):
           matchingStudents = allStudents.Where(s => (s.DateOfBirth != null) ? s.DateOfBirth.Value.ToString("dd MMMM yyyy").Contains(searchString, comparison) : true).ToList();
           break;
-        case nameof(Student.Gender):
+        case nameof(StudentResponse.Gender):
           matchingStudents = allStudents.Where(s => (!string.IsNullOrEmpty(s.Gender) ? s.Gender.Contains(searchString, comparison) : true)).ToList();
           break;
-        case nameof(Student.ClassID):
+        case nameof(StudentResponse.ClassID):
           matchingStudents = allStudents.Where(s => (!string.IsNullOrEmpty(s.Classroom) ? s.Classroom.Contains(searchString, comparison) : true)).ToList();
           break;
-        case nameof(Student.Address):
+        case nameof(StudentResponse.Address):
           matchingStudents = allStudents.Where(s => (!string.IsNullOrEmpty(s.Address) ? s.Address.Contains(searchString, comparison) : true)).ToList();
           break;
         default: matchingStudents = allStudents; break;
