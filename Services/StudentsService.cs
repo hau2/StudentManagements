@@ -140,9 +140,13 @@ namespace Services
       return matchingStudent.ToStudentResponse();
     }
 
-    public bool DeleteStudent(Guid studentID)
+    public bool DeleteStudent(Guid? studentID)
     {
-      throw new NotImplementedException();
+      if(studentID == null) throw new ArgumentException(nameof(studentID));
+      Student? student = _students.FirstOrDefault(s => s.StudentID == studentID);
+      if (student == null) return false;
+      _students.RemoveAll(s => s.StudentID == studentID);
+      return true;
     }
   }
 }
