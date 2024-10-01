@@ -1,4 +1,5 @@
 ﻿using Entities;
+using ServiceContracts.Enums;
 
 namespace ServiceContracts.DTO
 {
@@ -36,6 +37,20 @@ namespace ServiceContracts.DTO
     public override string ToString()
     {
       return $"Student: {StudentID}-{StudentName}-{Email}-{DateOfBirth?.ToString("dd MMM yyyy")}-{Gender}-{ClassID}-{Classroom}-{IsNewCommer}";
+    }
+    public StudentUpdateRequest ToStudentUpdateRequest()
+    {
+      return new StudentUpdateRequest()
+      {
+        StudentID = StudentID,
+        StudentName = StudentName,
+        Email = Email,
+        DateOfBirth = DateOfBirth,
+        Gender = (GenderOptions)Enum.Parse(typeof(GenderOptions), Gender, true),
+        Address = Address,
+        ClassID = ClassID,
+        IsNewCommer = IsNewCommer,
+      };
     }
   }
   public static class StudentExtension
