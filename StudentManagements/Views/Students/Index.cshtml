@@ -1,4 +1,35 @@
-﻿@{
+﻿@model IEnumerable<StudentResponse>
+
+@{
 	ViewBag.Title = "Students";
 }
 <h1>Students</h1>
+<table class="table w-100 mt">
+	<thead>
+		<tr>
+			<th>Student Name</th>
+			<th>Email</th>
+			<th>Date of birth</th>
+			<th>Age</th>
+			<th>Gender</th>
+			<th>Classroom</th>
+			<th>Address</th>
+			<th>New Commer</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach(StudentResponse student in Model)
+		{
+			<tr>
+				<td>@student.StudentName</td>
+				<td>@student.Email</td>
+				<td>@student.DateOfBirth?.ToString("dd MMM yyyy")</td>
+				<td>@student.Age</td>
+				<td>@student.Gender</td>
+				<td>@student.Classroom</td>
+				<td>@student.Address</td>
+				<td>@student.IsNewCommer</td>
+			</tr>
+		}
+	</tbody>
+</table>
