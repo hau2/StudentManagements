@@ -8,9 +8,11 @@ namespace StudentManagements.Controllers
 	public class StudentsController : Controller
 	{
 		private readonly IStudentService _studentService;
-		public StudentsController(IStudentService studentService)
+		private readonly IClassroomService _classroomService;
+		public StudentsController(IStudentService studentService, IClassroomService classroomService)
 		{
 			_studentService = studentService;
+			_classroomService = classroomService;
 		}
 		[Route("/")]
 		[Route("students/index")]
@@ -36,6 +38,29 @@ namespace StudentManagements.Controllers
 			ViewBag.CurrentSortOrder = sortOrder.ToString();
 
 			return View(students);
+		}
+		[HttpGet]
+		[Route("students/create")]
+		public IActionResult Create()
+		{
+			List<ClassroomResponse> classrooms = _classroomService.GetAllClassrooms();
+			ViewBag.Classrooms = classrooms;
+			return View();
+		}
+		[HttpPost]
+		[Route("students/create")]
+		public IActionResult Create(StudentAddRequest studentAddRequest)
+		{
+			if(!ModelState.IsValid)
+			{
+				List<ClassroomResponse> classrooms = _classroomService.GetAllClassrooms();
+				ViewBag.Classrooms = classrooms;
+				ViewBag.Errors = ModelState.Values.SelectMany(v => v.Errors).ToList().Select(e => e.ErrorMessage).ToList();
+				return View();
+			}
+			StudentResponse studentResponse = _studentService.AddStudent(studentAddRequest);
+			// Navigate to Index() action method (it makes another get request to "students/index"
+			return RedirectToAction("Index", "Students");
 		}
 	}
 }

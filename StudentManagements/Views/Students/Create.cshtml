@@ -1,0 +1,112 @@
+﻿@{
+	ViewBag.Title = "Create Student";
+}
+
+<a href="~/students/index" class="link-hover">Back to Students list</a>
+<h2>Create Student</h2>
+
+<div class="w-50">
+	<form action="~/students/create" method="post">
+		@*Student Name*@
+		<div class="form-field flex">
+			<div class="w-25">
+				<label for="StudentName" class="form-label pt">Student Name</label>
+			</div>
+			<div class="flex-1">
+				<input type="text" id="StudentName" name="StudentName" class="form-input" />
+			</div>
+		</div>
+
+		@*Email*@
+		<div class="form-field flex">
+			<div class="w-25">
+				<label for="Email" class="form-label pt">Email</label>
+			</div>
+			<div class="flex-1">
+				<input type="text" id="Email" name="Email" class="form-input" />
+			</div>
+		</div>
+
+		@*Date of Birth*@
+		<div class="form-field flex">
+			<div class="w-25">
+				<label for="DateOfBirth" class="form-label pt">Date Of Birth</label>
+			</div>
+			<div class="flex-1">
+				<input type="date" id="DateOfBirth" name="DateOfBirth" class="form-input" />
+			</div>
+		</div>
+
+		@*Gender*@
+		<div class="form-field flex">
+			<div class="w-25">
+				<label for="Gender" class="form-label">Gender</label>
+			</div>
+			<div class="flex-1">
+				<input type="radio" id="Male" value="Male" name="Gender"/>
+				<label for="Male">Male</label>
+				<input type="radio" id="Female" value="Female" name="Gender" class="ml" />
+				<label for="Female">Female</label>
+				<input type="radio" id="Other" value="Other" name="Gender" class="ml" />
+				<label for="Female">Other</label>
+			</div>
+		</div>
+
+		@*Classroom*@
+		<div class="form-field flex">
+			<div class="w-25">
+				<label for="ClassID" class="form-label">Classroom</label>
+			</div>
+			<div class="flex-1">
+				<select name="ClassID" id="ClassID" class="form-input">
+					<option value="">Please Select</option>
+					@foreach(ClassroomResponse classroom in ViewBag.Classrooms)
+					{
+						<option value="@classroom.ClassID">@classroom.ClassName</option>
+					}
+				</select>
+			</div>
+		</div>
+
+		@*Address*@
+		<div class="form-field flex">
+			<div class="w-25">
+				<label for="Address" class="form-label pt">Address</label>
+			</div>
+			<div class="flex-1">
+				<textarea id="Address" name="Address" class="form-input"></textarea>
+			</div>
+		</div>
+
+		@*Is Newcommer*@
+		<div class="form-field flex">
+			<div class="w-25">
+			</div>
+			<div class="flex-1">
+				<input type="checkbox" id="IsNewCommer" value="true" name="IsNewCommer" class="ml" />
+				<label for="IsNewCommer" class="form-label">New Commer</label>
+			</div>
+		</div>
+
+		@*Submit*@
+		<div class="form-field flex">
+			<div class="w-25">
+			</div>
+			<div class="flex-1">
+				<button type="submit" class="button button-green-back">Create</button>
+
+				@if(ViewBag.Errors != null)
+				{
+					<div class="text-red ml">
+						<ul>
+							@foreach (string error in ViewBag.Errors)
+							{
+								<li class="ml">@error</li>
+							}
+						</ul>
+					</div>
+				}
+			</div>
+		</div>
+	</form>
+</div>
