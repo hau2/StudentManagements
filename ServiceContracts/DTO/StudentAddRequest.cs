@@ -9,7 +9,9 @@ namespace ServiceContracts.DTO
     public string? StudentName { get; set; }
     [Required(ErrorMessage = "Student Email can't be blank")]
     [EmailAddress(ErrorMessage = "Invalid Email")]
+    [DataType(DataType.EmailAddress)]
     public string? Email { get; set; }
+    [DataType(DataType.Date)]
     public DateTime? DateOfBirth { get; set; }
     public GenderOptions? Gender { get; set; }
     public Guid? ClassID { get; set; }

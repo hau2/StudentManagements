@@ -1,4 +1,6 @@
-﻿@{
+﻿@model StudentAddRequest
+
+@{
 	ViewBag.Title = "Create Student";
 }
 
@@ -10,60 +12,59 @@
 		@*Student Name*@
 		<div class="form-field flex">
 			<div class="w-25">
-				<label for="StudentName" class="form-label pt">Student Name</label>
+				@*Use asp-for for lable to make strongly-typed, avoid word spell*@
+				<label asp-for="StudentName" class="form-label pt">Student Name</label>
 			</div>
 			<div class="flex-1">
-				<input type="text" id="StudentName" name="StudentName" class="form-input" />
+				<input asp-for="StudentName" class="form-input" />
 			</div>
 		</div>
 
 		@*Email*@
 		<div class="form-field flex">
 			<div class="w-25">
-				<label for="Email" class="form-label pt">Email</label>
+				<label asp-for="Email" class="form-label pt">Email</label>
 			</div>
 			<div class="flex-1">
-				<input type="text" id="Email" name="Email" class="form-input" />
+				<input asp-for="Email" class="form-input" />
 			</div>
 		</div>
 
 		@*Date of Birth*@
 		<div class="form-field flex">
 			<div class="w-25">
-				<label for="DateOfBirth" class="form-label pt">Date Of Birth</label>
+				<label asp-for="DateOfBirth" class="form-label pt">Date Of Birth</label>
 			</div>
 			<div class="flex-1">
-				<input type="date" id="DateOfBirth" name="DateOfBirth" class="form-input" />
+				<input asp-for="DateOfBirth" class="form-input" />
 			</div>
 		</div>
 
 		@*Gender*@
 		<div class="form-field flex">
 			<div class="w-25">
-				<label for="Gender" class="form-label">Gender</label>
+				<label asp-for="Gender" class="form-label">Gender</label>
 			</div>
 			<div class="flex-1">
-				<input type="radio" id="Male" value="Male" name="Gender"/>
-				<label for="Male">Male</label>
-				<input type="radio" id="Female" value="Female" name="Gender" class="ml" />
-				<label for="Female">Female</label>
-				<input type="radio" id="Other" value="Other" name="Gender" class="ml" />
-				<label for="Female">Other</label>
+				@{
+					string[] genders = Enum.GetNames(typeof(GenderOptions));
+				}
+				@foreach(string gender in genders)
+				{
+					<input type="radio" asp-for=@gender value=@gender/>
+					<label asp-for="@gender">@gender</label>
+				}
 			</div>
 		</div>
 
 		@*Classroom*@
 		<div class="form-field flex">
 			<div class="w-25">
-				<label for="ClassID" class="form-label">Classroom</label>
+				<label asp-for="ClassID" class="form-label">Classroom</label>
 			</div>
 			<div class="flex-1">
-				<select name="ClassID" id="ClassID" class="form-input">
+				<select asp-for="ClassID" class="form-input" asp-items="@ViewBag.Classrooms">
 					<option value="">Please Select</option>
-					@foreach(ClassroomResponse classroom in ViewBag.Classrooms)
-					{
-						<option value="@classroom.ClassID">@classroom.ClassName</option>
-					}
 				</select>
 			</div>
 		</div>
@@ -71,10 +72,10 @@
 		@*Address*@
 		<div class="form-field flex">
 			<div class="w-25">
-				<label for="Address" class="form-label pt">Address</label>
+				<label asp-for="Address" class="form-label pt">Address</label>
 			</div>
 			<div class="flex-1">
-				<textarea id="Address" name="Address" class="form-input"></textarea>
+				<textarea asp-for="Address" class="form-input"></textarea>
 			</div>
 		</div>
 
@@ -83,8 +84,9 @@
 			<div class="w-25">
 			</div>
 			<div class="flex-1">
-				<input type="checkbox" id="IsNewCommer" value="true" name="IsNewCommer" class="ml" />
-				<label for="IsNewCommer" class="form-label">New Commer</label>
+				@*because IsNewCommer is Boolean type, automatic render checkbox, no need to add type = checkbox*@
+				<input asp-for="IsNewCommer" value="true" class="ml" />
+				<label asp-for="IsNewCommer" class="form-label">New Commer</label>
 			</div>
 		</div>
 

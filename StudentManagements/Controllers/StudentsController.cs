@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ServiceContracts;
 using ServiceContracts.DTO;
 using ServiceContracts.Enums;
@@ -45,7 +46,11 @@ namespace StudentManagements.Controllers
 		public IActionResult Create()
 		{
 			List<ClassroomResponse> classrooms = _classroomService.GetAllClassrooms();
-			ViewBag.Classrooms = classrooms;
+			ViewBag.Classrooms = classrooms.Select(c => new SelectListItem()
+			{
+				Text = c.ClassName,
+				Value = c.ClassID.ToString()
+			});
 			return View();
 		}
 		[HttpPost]
