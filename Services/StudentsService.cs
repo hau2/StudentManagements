@@ -86,7 +86,7 @@ namespace Services
 
     public List<StudentResponse> GetAllStudents()
     {
-      return _students.Select(s => s.ToStudentResponse()).ToList();
+      return _students.Select(s => ConvertStudentToStudentResponse(s)).ToList();
     }
 
     public StudentResponse? GetStudentByStudentID(Guid? studentID)
