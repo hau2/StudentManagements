@@ -5,9 +5,9 @@
 }
 <h1>Students</h1>
 
-<a href="~/students/create">Create Student</a>
+<a asp-controller="Students" asp-action="Create">Create Student</a>
 
-<form action="~/students/index" method="get">
+<form asp-controller="Students" asp-action="Index" method="get">
 <div class="box flex">
 	<div class="flex-1">
 		<select class="form-input" name="searchBy">
@@ -17,14 +17,14 @@
 			}
 		</select>
 	</div>
-
+	
 	<div class="flex-1">
 		<input type="search" id="search" class="form-input" placeholder="Search" name="searchString" value=@ViewBag.CurrentSearchString />
 	</div>
 
 	<div class="flex-1">
 		<button class="button button-blue-back">Search</button>
-		<a href="~/students/index" class="link-hover">Clear all</a>
+			<a asp-controller="Students" asp-action="Index" class="link-hover">Clear all</a>
 	</div>
 </div>
 <table class="table w-100 mt">
