@@ -1,0 +1,45 @@
+﻿@model StudentResponse
+
+@{
+	ViewBag.Title = "Delete Student";
+}
+
+<a asp-controller="Students" asp-action="Index" class="link-hover">Back to Students list</a>
+<h2>Delete Student</h2>
+<h3>Are you sure to delete this Student?</h3>
+
+<div class="center-box">
+	<form asp-controller="Students" asp-action="Delete" method="post">
+		<input type="hidden" asp-for="StudentID" />
+		@*Student Name*@
+		<div class="form-field flex">
+			<div class="w-25">
+				@*Use asp-for for lable to make strongly-typed, avoid word spell*@
+				<label asp-for="StudentName" class="form-label pt">Student Name</label>
+			</div>
+			<div class="flex-1">
+				<input asp-for="StudentName" class="form-input" disabled />
+				<span asp-validation-for="StudentName" class="text-red"></span>
+			</div>
+		</div>
+
+		@*Email*@
+		<div class="form-field flex">
+			<div class="w-25">
+				<label asp-for="Email" class="form-label pt">Email</label>
+			</div>
+			<div class="flex-1">
+				<input asp-for="Email" class="form-input" disabled />
+				<span asp-validation-for="Email" class="text-red"></span>
+			</div>
+		</div>
+
+		<div class="form-field flex">
+			<div class="w-25">
+			</div>
+			<div class="flex-1">
+				<button type="submit" class="button button-red-back">Delete</button>
+			</div>
+		</div>
+	</form>
+</div>

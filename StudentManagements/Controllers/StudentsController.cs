@@ -106,7 +106,24 @@ namespace StudentManagements.Controllers
       List<ClassroomResponse> classrooms = _classroomService.GetAllClassrooms();
       ViewBag.Classrooms = classrooms;
       ViewBag.Errors = ModelState.Values.SelectMany(v => v.Errors).ToList().Select(e => e.ErrorMessage).ToList();
-      return View();
+      return View(studentResponse.ToStudentUpdateRequest());
     }
-  }
+		[HttpGet]
+		[Route("[action]/{studentID}")]
+		public IActionResult Delete(Guid studentID)
+		{
+			StudentResponse? studentResponse = _studentService.GetStudentByStudentID(studentID);
+			if(studentResponse == null) return RedirectToAction("Index");
+			return View(studentResponse);
+		}
+		[HttpPost]
+		[Route("[action]/{studentID}")]
+		public IActionResult Delete(StudentUpdateRequest studentUpdateRequest)
+		{
+			StudentResponse? studentResponse = _studentService.GetStudentByStudentID(studentUpdateRequest.StudentID);
+			if (studentResponse == null) return RedirectToAction("Index");
+			_studentService.DeleteStudent(studentResponse.StudentID);
+			return RedirectToAction("Index");
+		}
+	}
 }
