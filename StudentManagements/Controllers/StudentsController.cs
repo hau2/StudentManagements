@@ -5,6 +5,7 @@ using ServiceContracts.Enums;
 
 namespace StudentManagements.Controllers
 {
+	[Route("[controller]")]
 	public class StudentsController : Controller
 	{
 		private readonly IStudentService _studentService;
@@ -15,7 +16,7 @@ namespace StudentManagements.Controllers
 			_classroomService = classroomService;
 		}
 		[Route("/")]
-		[Route("students/index")]
+		[Route("[action]")]
 		public IActionResult Index(string searchBy, string? searchString, string sortBy = nameof(StudentResponse), SortOrderOptions sortOrder = SortOrderOptions.ASC)
 		{
 			// Search
@@ -40,7 +41,7 @@ namespace StudentManagements.Controllers
 			return View(students);
 		}
 		[HttpGet]
-		[Route("students/create")]
+		[Route("[action]")]
 		public IActionResult Create()
 		{
 			List<ClassroomResponse> classrooms = _classroomService.GetAllClassrooms();
@@ -48,7 +49,7 @@ namespace StudentManagements.Controllers
 			return View();
 		}
 		[HttpPost]
-		[Route("students/create")]
+		[Route("[action]")]
 		public IActionResult Create(StudentAddRequest studentAddRequest)
 		{
 			if(!ModelState.IsValid)
