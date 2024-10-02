@@ -68,5 +68,45 @@ namespace StudentManagements.Controllers
 			// Navigate to Index() action method (it makes another get request to "students/index"
 			return RedirectToAction("Index", "Students");
 		}
-	}
+    [HttpGet]
+    [Route("[action]/{studentID}")]
+    public IActionResult Edit(Guid studentID)
+    {
+			StudentResponse? studentResponse = _studentService.GetStudentByStudentID(studentID);
+			if(studentResponse == null)
+			{
+				return RedirectToAction("Index");
+			}
+
+			StudentUpdateRequest studentUpdateRequest = studentResponse.ToStudentUpdateRequest();
+      List<ClassroomResponse> classrooms = _classroomService.GetAllClassrooms();
+      ViewBag.Classrooms = classrooms.Select(c => new SelectListItem()
+      {
+        Text = c.ClassName,
+        Value = c.ClassID.ToString()
+      });
+      return View(studentUpdateRequest);
+    }
+    [HttpPost]
+    [Route("[action]/{studentID}")]
+    public IActionResult Edit(StudentUpdateRequest studentUpdateRequest)
+    {
+			StudentResponse? studentResponse = _studentService.GetStudentByStudentID(studentUpdateRequest.StudentID);
+			if(studentResponse == null)
+			{
+				return RedirectToAction("Index");
+			}
+
+			if(ModelState.IsValid)
+			{
+				StudentResponse updatedStudent = _studentService.UpdateStudent(studentUpdateRequest);
+        return RedirectToAction("Index");
+      }
+
+      List<ClassroomResponse> classrooms = _classroomService.GetAllClassrooms();
+      ViewBag.Classrooms = classrooms;
+      ViewBag.Errors = ModelState.Values.SelectMany(v => v.Errors).ToList().Select(e => e.ErrorMessage).ToList();
+      return View();
+    }
+  }
 }

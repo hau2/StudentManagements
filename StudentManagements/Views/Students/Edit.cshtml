@@ -1,0 +1,131 @@
+﻿@model StudentUpdateRequest
+
+@{
+	ViewBag.Title = "Edit Student";
+}
+
+<a asp-controller="Students" asp-action="Index" class="link-hover">Back to Students list</a>
+<h2>Edit Student</h2>
+
+<div class="center-box">
+	<form asp-controller="Students" asp-action="Edit" method="post">
+		<input type="hidden" asp-for="StudentID" />
+		@*Student Name*@
+		<div class="form-field flex">
+			<div class="w-25">
+				@*Use asp-for for lable to make strongly-typed, avoid word spell*@
+				<label asp-for="StudentName" class="form-label pt">Student Name</label>
+			</div>
+			<div class="flex-1">
+				<input asp-for="StudentName" class="form-input" />
+				<span asp-validation-for="StudentName" class="text-red"></span>
+			</div>
+		</div>
+
+		@*Email*@
+		<div class="form-field flex">
+			<div class="w-25">
+				<label asp-for="Email" class="form-label pt">Email</label>
+			</div>
+			<div class="flex-1">
+				<input asp-for="Email" class="form-input" />
+				<span asp-validation-for="Email" class="text-red"></span>
+			</div>
+		</div>
+
+		@*Date of Birth*@
+		<div class="form-field flex">
+			<div class="w-25">
+				<label asp-for="DateOfBirth" class="form-label pt">Date Of Birth</label>
+			</div>
+			<div class="flex-1">
+				<input asp-for="DateOfBirth" class="form-input" />
+				<span asp-validation-for="DateOfBirth" class="text-red"></span>
+			</div>
+		</div>
+
+		@*Gender*@
+		<div class="form-field flex">
+			<div class="w-25">
+				<label asp-for="Gender" class="form-label">Gender</label>
+			</div>
+			<div class="flex-1">
+				@{
+					string[] genders = Enum.GetNames(typeof(GenderOptions));
+				}
+				@foreach(string gender in genders)
+				{
+					<input type="radio" asp-for="Gender" value=@gender/>
+					<label asp-for="@gender">@gender</label>
+				}
+				<span asp-validation-for="Gender" class="text-red"></span>
+			</div>
+		</div>
+
+		@*Classroom*@
+		<div class="form-field flex">
+			<div class="w-25">
+				<label asp-for="ClassID" class="form-label">Classroom</label>
+			</div>
+			<div class="flex-1">
+				<select asp-for="ClassID" class="form-input" asp-items="@ViewBag.Classrooms">
+					<option value="">Please Select</option>
+				</select>
+				<span asp-validation-for="ClassID" class="text-red"></span>
+			</div>
+		</div>
+
+		@*Address*@
+		<div class="form-field flex">
+			<div class="w-25">
+				<label asp-for="Address" class="form-label pt">Address</label>
+			</div>
+			<div class="flex-1">
+				<textarea asp-for="Address" class="form-input"></textarea>
+				<span asp-validation-for="Address" class="text-red"></span>
+			</div>
+		</div>
+
+		@*Is Newcommer*@
+		<div class="form-field flex">
+			<div class="w-25">
+			</div>
+			<div class="flex-1">
+				@*because IsNewCommer is Boolean type, automatic render checkbox, no need to add type = checkbox*@
+				<input asp-for="IsNewCommer" value="true" class="ml" />
+				<label asp-for="IsNewCommer" class="form-label">New Commer</label>
+			</div>
+			<span asp-validation-for="IsNewCommer" class="text-red"></span>
+		</div>
+
+		@*Submit*@
+		<div class="form-field flex">
+			<div class="w-25">
+			</div>
+			<div class="flex-1">
+				<button type="submit" class="button button-green-back">Update</button>
+
+				<div asp-validation-summary="All" class="text-red"></div>
+				@if(ViewBag.Errors != null)
+				{
+					<div class="text-red ml">
+						<ul>
+							@foreach (string error in ViewBag.Errors)
+							{
+								<li class="ml">@error</li>
+							}
+						</ul>
+					</div>
+				}
+			</div>
+		</div>
+	</form>
+</div>
+
+@*Dùng section để Render ở cuối global page cho để quản lý các thẻ script*@
+@*Nếu url của src bị lỗi hoặc không tồn tại sẽ load file script ở local*@
+@section scripts {
+<script asp-fallback-test="window.jQuery" asp-fallback-src="~/jquery.min.js" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script asp-fallback-test="window.jQuery.valdator" asp-fallback-src=" ~ /jquery.validate.min.js" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.21.0/jquery.validate.min.js" integrity="sha512-KFHXdr2oObHKI9w4Hv1XPKc898mE4kgYx58oqsc/JqqdLMDI4YjOLzom+EMlW8HFUd0QfjfAvxSL6sEq/a42fQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script asp-fallback-test="window.jQuery.valdator.unobtrusive" asp-fallback-src="~/jquery.validate.unobtrusive.min.js" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js" integrity="sha512-xq+Vm8jC94ynOikewaQXMEkJIOBp7iArs3IhFWSWdRT3Pq8wFz46p+ZDFAR7kHnSFf+zUv52B3prRYnbDRdgog==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+}
