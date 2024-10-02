@@ -13,7 +13,9 @@ namespace ServiceContracts.DTO
     public string? Email { get; set; }
     [DataType(DataType.Date)]
     public DateTime? DateOfBirth { get; set; }
-    public GenderOptions? Gender { get; set; }
+		[Required(ErrorMessage = "Gender can't be blank")]
+		public GenderOptions? Gender { get; set; }
+    [Required(ErrorMessage = "Please Select Class")]
     public Guid? ClassID { get; set; }
     public string? Address { get; set; }
     public bool IsNewCommer { get; set; }
