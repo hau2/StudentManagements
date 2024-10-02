@@ -35,6 +35,15 @@
 		width: 100%;
 	}
 
+		.center-box {
+			width: 70%;
+			margin: auto;
+		}
+
+		.form-field>div {
+			padding: 15px !important;
+		}
+
 		.navbar > ul > li > a:link, .navbar > ul > li > a:visited {
 			padding: 4px 8px;
 			cursor: pointer;

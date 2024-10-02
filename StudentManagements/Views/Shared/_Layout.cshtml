@@ -10,7 +10,13 @@
 <body>
   <div class="container">
     <div class="navbar">
-      <div class="navbar-brand">Student Management</div>
+      <div class="navbar-brand">
+        @*
+        /logo.png?v=IUARlOFQtJroi4tpHqZUkJkvsWPTKh0S9mK2shORjtk
+        asp-append-version - Dùng để catching, khi reload page nhiều lần. Logo sẽ không bị load lại
+        *@
+        <img src="~/logo.png" width="50" height="50" asp-append-version="true" />
+      </div>
       <ul>
         <li>
           <a href="~/students/index">Students</a>
