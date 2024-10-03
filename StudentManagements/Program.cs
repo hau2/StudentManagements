@@ -10,7 +10,7 @@ builder.Services.AddSingleton<IClassroomService, ClassroomsService>();
 builder.Services.AddSingleton<IStudentService, StudentsService>();
 builder.Services.AddDbContext<StudentsDbContext>(options =>
 {
-  options.UseSqlServer();
+  options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
 var app = builder.Build();
