@@ -1,11 +1,17 @@
 using ServiceContracts;
 using Services;
+using Microsoft.EntityFrameworkCore;
+using Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddSingleton<IClassroomService, ClassroomsService>();
 builder.Services.AddSingleton<IStudentService, StudentsService>();
+builder.Services.AddDbContext<StudentsDbContext>(options =>
+{
+  options.UseSqlServer();
+});
 
 var app = builder.Build();
 
